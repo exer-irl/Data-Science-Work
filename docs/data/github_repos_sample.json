@@ -1,0 +1,44 @@
+[
+  {
+    "name": "data-intelligence-portfolio",
+    "description": "Interactive analytics experience highlighting Caleb Drew's work.",
+    "language": "TypeScript",
+    "stargazers_count": 42,
+    "forks_count": 8
+  },
+  {
+    "name": "forecasting-playbook",
+    "description": "Reusable notebooks for demand and revenue forecasting.",
+    "language": "Python",
+    "stargazers_count": 58,
+    "forks_count": 15
+  },
+  {
+    "name": "streaming-pipeline-starter",
+    "description": "Kappa architecture template with Kafka, Spark, and dbt integrations.",
+    "language": "Scala",
+    "stargazers_count": 33,
+    "forks_count": 12
+  },
+  {
+    "name": "analytics-engineering-toolkit",
+    "description": "Utilities for testing, documenting, and deploying dbt projects.",
+    "language": "SQL",
+    "stargazers_count": 27,
+    "forks_count": 10
+  },
+  {
+    "name": "mlops-observability",
+    "description": "Model monitoring dashboards and alerting recipes.",
+    "language": "Python",
+    "stargazers_count": 46,
+    "forks_count": 11
+  },
+  {
+    "name": "experimentation-hub",
+    "description": "Feature-flag aware AB testing service.",
+    "language": "Go",
+    "stargazers_count": 38,
+    "forks_count": 9
+  }
+]
