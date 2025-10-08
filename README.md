@@ -39,3 +39,29 @@ line chart in `data/demand_forecast.png`.
 ```bash
 pytest
 ```
+
+## Portfolio Site (GitHub Pages)
+
+The interactive resume and analytics experience lives in the `docs/` folder so
+it can be published directly with GitHub Pages. To make the site publicly
+available:
+
+1. Push the repository to GitHub.
+2. In the GitHub UI, open **Settings → Pages**.
+3. Under **Source**, choose **Deploy from a branch**.
+4. Select the `main` branch and the `/docs` folder, then click **Save**.
+
+GitHub will build the page and provide a URL like
+`https://<your-username>.github.io/<repository-name>/`. Visit that URL to see
+the live dashboard.
+
+### Previewing locally
+
+You can also run the page locally by serving the `docs/` directory, for example:
+
+```bash
+cd docs
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000` in a browser.
