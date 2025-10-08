@@ -45,9 +45,10 @@ const suggestedMax = Math.round(latestForecast * 1.08);
 
 document.addEventListener('DOMContentLoaded', () => {
   const ctx = document.getElementById('productionChart');
+  const chartLib = window.Chart;
 
-  if (ctx) {
-    new Chart(ctx, {
+  if (ctx && chartLib) {
+    new chartLib(ctx, {
       type: 'line',
       data: {
         labels,
@@ -146,6 +147,8 @@ document.addEventListener('DOMContentLoaded', () => {
         },
       },
     });
+  } else if (ctx && !chartLib) {
+    renderChartFallback(ctx);
   }
 
   updateHeadlineMetrics();
@@ -163,4 +166,24 @@ function updateHeadlineMetrics() {
   forecastValueEl.textContent = `${formatter.format(latestForecast)} units`;
   minEl.textContent = `${formatter.format(suggestedMin)} units`;
   maxEl.textContent = `${formatter.format(suggestedMax)} units`;
+}
+
+function renderChartFallback(canvasEl) {
+  const fallback = document.createElement('div');
+  fallback.className = 'chart-fallback';
+
+  fallback.innerHTML = `
+    <p class="chart-fallback-title">Production forecast snapshot</p>
+    <p class="chart-fallback-copy">
+      The interactive view is temporarily unavailable.
+      Recent Holt-Winters projections still point to a healthy seasonal peak with tightened guardrails.
+    </p>
+    <ul class="chart-fallback-list">
+      <li><span>Latest forecast</span><span>${formatter.format(latestForecast)} units</span></li>
+      <li><span>Suggested minimum</span><span>${formatter.format(suggestedMin)} units</span></li>
+      <li><span>Suggested maximum</span><span>${formatter.format(suggestedMax)} units</span></li>
+    </ul>
+  `;
+
+  canvasEl.replaceWith(fallback);
 }

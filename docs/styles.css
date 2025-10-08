@@ -219,6 +219,51 @@ a:focus {
   height: 240px !important;
 }
 
+.chart-fallback {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  color: rgba(247, 248, 255, 0.88);
+}
+
+.chart-fallback-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.chart-fallback-copy {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.chart-fallback-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.chart-fallback-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: calc(var(--radius) - 8px);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.95rem;
+}
+
+.chart-fallback-list li span:first-child {
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+}
+
 .case-footnote {
   margin-top: 18px;
   font-size: 0.9rem;
