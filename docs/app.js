@@ -427,6 +427,26 @@ async function renderMacroForecast() {
       housingData.states.length;
 
     const unemployment = await fetchJson(profileConfig.feeds.unemployment);
+    const recent = unemployment.slice(-36);
+    const grouped = recent.reduce((acc, row) => {
+      const isoDate = row.date || (row.year && row.month ? `${row.year}-${String(row.month).padStart(2, '0')}` : null);
+      if (!isoDate) return acc;
+      const key = isoDate.slice(0, 7);
+      const measurement = Number(row.unemployed ?? row.count ?? row.value ?? row.Total ?? 0);
+      if (!Number.isFinite(measurement)) return acc;
+      acc[key] = acc[key] || [];
+      acc[key].push(measurement);
+      return acc;
+    }, {});
+    const unemploymentAverage = Object.entries(grouped)
+      .sort(([a], [b]) => (a > b ? 1 : -1))
+      .map(([date, values]) => ({
+        date,
+        value:
+          values.map((val) => Number(val)).reduce((sum, val) => sum + val, 0) / values.length,
+      }));
+
+    const combined = unemploymentAverage.slice(-8).map((entry, idx, arr) => ({
     const recent = unemployment.slice(-24);
     const grouped = recent.reduce((acc, row) => {
       const key = row.date;
