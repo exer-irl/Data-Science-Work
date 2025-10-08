@@ -66,11 +66,51 @@ a:focus {
   margin: 0;
 }
 
-.tagline {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin: 20px 0 28px;
-  color: rgba(247, 248, 255, 0.88);
+.tool-logos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 22px 0 28px;
+}
+
+.tool-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  padding: 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 12px 28px rgba(8, 10, 20, 0.28);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.tool-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.tool-logo.azure {
+  background: linear-gradient(145deg, rgba(0, 120, 212, 0.18), rgba(83, 167, 243, 0.08));
+}
+
+.tool-logo.fabric {
+  background: linear-gradient(145deg, rgba(79, 95, 191, 0.2), rgba(0, 32, 80, 0.1));
+}
+
+.tool-logo.powerbi {
+  background: linear-gradient(145deg, rgba(242, 200, 17, 0.22), rgba(237, 157, 0, 0.1));
+}
+
+.tool-logo.sql {
+  background: linear-gradient(145deg, rgba(15, 108, 189, 0.2), rgba(17, 60, 123, 0.1));
+}
+
+.tool-logo.python {
+  background: linear-gradient(145deg, rgba(54, 114, 165, 0.2), rgba(255, 211, 67, 0.12));
 }
 
 .intro-actions {
