@@ -4,7 +4,7 @@ const profileConfig = {
     greeting: 'Hello, I\'m',
     tagline:
       'Building data products that combine real-time intelligence, predictive analytics, and beautiful storytelling.',
-    resumeUrl: 'Caleb_Drew_Resume.pdf',
+    resumeUrl: 'https://example.com/your-resume.pdf',
     contactMailto: 'mailto:you@example.com?subject=Let\'s build data products',
     stats: {
       years: 8,
@@ -64,61 +64,21 @@ const profileConfig = {
       category: ['data-science', 'leadership'],
     },
   ],
-  githubUsername: 'calebdrew',
+  githubUsername: 'octocat',
   feeds: {
-    investorFlows: {
-      primary: 'https://raw.githubusercontent.com/datasets/investor-flow-of-funds-us/master/data/weekly.csv',
-      fallback: 'data/investor_flows_sample.csv',
-    },
-    stocks: {
-      primary: 'https://raw.githubusercontent.com/vega/vega-datasets/master/data/stocks.csv',
-      fallback: 'data/stocks_sample.csv',
-    },
-    unemployment: {
-      primary: 'https://raw.githubusercontent.com/vega/vega-datasets/master/data/unemployment-across-industries.json',
-      fallback: 'data/unemployment_sample.json',
-    },
-    covidUs: {
-      primary: 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv',
-      fallback: 'data/covid_us_sample.csv',
-    },
-    volatility: {
-      primary: 'https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv',
-      fallback: 'data/volatility_sample.csv',
-    },
-    usStates: {
-      primary: 'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json',
-      fallback: 'data/us_states.geojson',
-    },
-    unsoldHousing: {
-      primary: 'https://raw.githubusercontent.com/calebdrew/calebdrew/work/docs/data/unsold_housing_index.json',
-      fallback: 'data/unsold_housing_index.json',
-    },
-    githubReposFallback: 'data/github_repos_sample.json',
+    investorFlows: 'https://raw.githubusercontent.com/datasets/investor-flow-of-funds-us/master/data/weekly.csv',
+    stocks: 'https://raw.githubusercontent.com/vega/vega-datasets/master/data/stocks.csv',
+    unemployment: 'https://raw.githubusercontent.com/vega/vega-datasets/master/data/unemployment-across-industries.json',
+    covidUs: 'https://raw.githubusercontent.com/nytimes/covid-19-data/master/us.csv',
+    volatility: 'https://raw.githubusercontent.com/plotly/datasets/master/finance-charts-apple.csv',
+    usStates: 'https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json',
+    unsoldHousingFallback: 'data/unsold_housing_index.json',
+    // Replace the endpoint below with a live feed provided by your housing data partner.
+    unsoldHousingLive: 'https://raw.githubusercontent.com/reisanar/datasets/master/unsold-housing-index/sample-state-inventory.json',
   },
 };
 
 const charts = {};
-
-function normalizeFeed(feedOrUrl, fallbackUrl) {
-  if (!feedOrUrl) {
-    throw new Error('Feed configuration not provided.');
-  }
-  if (typeof feedOrUrl === 'string') {
-    return { primary: feedOrUrl, fallback: fallbackUrl };
-  }
-  if (feedOrUrl && typeof feedOrUrl === 'object') {
-    const primary = feedOrUrl.primary;
-    if (!primary) {
-      throw new Error('Feed configuration missing a primary URL.');
-    }
-    return {
-      primary,
-      fallback: feedOrUrl.fallback ?? fallbackUrl,
-    };
-  }
-  throw new Error('Invalid feed configuration supplied.');
-}
 
 async function fetchWithFallback(url, fallbackUrl) {
   try {
@@ -136,15 +96,13 @@ async function fetchWithFallback(url, fallbackUrl) {
   }
 }
 
-async function fetchJson(feedOrUrl, fallbackUrl) {
-  const { primary, fallback } = normalizeFeed(feedOrUrl, fallbackUrl);
-  const res = await fetchWithFallback(primary, fallback);
+async function fetchJson(url, fallback) {
+  const res = await fetchWithFallback(url, fallback);
   return res.json();
 }
 
-async function fetchCsv(feedOrUrl, fallbackUrl) {
-  const { primary, fallback } = normalizeFeed(feedOrUrl, fallbackUrl);
-  const res = await fetchWithFallback(primary, fallback);
+async function fetchCsv(url, fallback) {
+  const res = await fetchWithFallback(url, fallback);
   const text = await res.text();
   const [headerLine, ...lines] = text.trim().split(/\r?\n/);
   const headers = headerLine.split(',').map((h) => h.trim());
@@ -164,18 +122,7 @@ function renderHero() {
   document.getElementById('hero-name').textContent = name;
   document.getElementById('hero-greeting').textContent = greeting;
   document.getElementById('hero-tagline').textContent = tagline;
-  document.getElementById('download-resume').onclick = () => {
-    const link = document.createElement('a');
-    link.href = resumeUrl;
-    link.target = '_blank';
-    link.rel = 'noopener';
-    if (!/^https?:/i.test(resumeUrl)) {
-      link.download = resumeUrl.split('/').pop() || 'Caleb_Drew_Resume.pdf';
-    }
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-  };
+  document.getElementById('download-resume').onclick = () => window.open(resumeUrl, '_blank');
   document.getElementById('contact-me').onclick = () => (window.location.href = contactMailto);
   document.getElementById('stat-years').textContent = stats.years;
   document.getElementById('stat-projects').textContent = stats.projects;
@@ -232,27 +179,9 @@ async function renderGithubSection() {
   const { githubUsername } = profileConfig;
   if (!githubUsername) return;
   try {
-    let repos = [];
-    try {
-      const response = await fetch(
-        `https://api.github.com/users/${githubUsername}/repos?per_page=100&sort=updated`,
-        {
-          headers: { Accept: 'application/vnd.github+json' },
-          cache: 'no-store',
-        }
-      );
-      if (!response.ok) {
-        throw new Error(`GitHub API unavailable (${response.status})`);
-      }
-      repos = await response.json();
-    } catch (apiError) {
-      console.warn('Falling back to cached GitHub analytics dataset', apiError);
-      repos = await fetchJson(profileConfig.feeds.githubReposFallback);
-    }
-
-    if (!repos || !repos.length) {
-      throw new Error('No repository data available.');
-    }
+    const response = await fetch(`https://api.github.com/users/${githubUsername}/repos?per_page=100&sort=updated`);
+    if (!response.ok) throw new Error('Unable to load GitHub repositories');
+    const repos = await response.json();
     const languageCounts = repos.reduce((acc, repo) => {
       if (repo.language) {
         acc[repo.language] = (acc[repo.language] || 0) + repo.stargazers_count + 1;
@@ -311,21 +240,9 @@ async function renderGithubSection() {
 async function renderFundFlows() {
   try {
     const rows = await fetchCsv(profileConfig.feeds.investorFlows);
-    const parsedRows = rows
-      .slice(-60)
-      .map((row) => {
-        const label = row['Date'] || row['date'] || row['Week'] || row['week'];
-        const raw = row['Total'] ?? row['total'] ?? row['TOTAL'];
-        const cleaned = typeof raw === 'string' ? raw : raw != null ? String(raw) : '';
-        const value = Number(cleaned.replace(/[^0-9.-]/g, ''));
-        return { label, value };
-      })
-      .filter((entry) => entry.label && Number.isFinite(entry.value));
-    if (!parsedRows.length) {
-      throw new Error('No valid capital flow observations available.');
-    }
-    const labels = parsedRows.map((entry) => entry.label);
-    const values = parsedRows.map((entry) => entry.value);
+    const recentRows = rows.slice(-40);
+    const labels = recentRows.map((row) => row['Date']);
+    const values = recentRows.map((row) => Number(row['Total'].replace(/[^0-9.-]/g, '')) || 0);
     const ctx = document.getElementById('fund-flow-chart');
     charts.fundFlow = new Chart(ctx, {
       type: 'line',
@@ -396,12 +313,6 @@ async function renderRevenueForecast(symbol = 'MSFT') {
 
     const labels = [...chronological.slice(-24).map((row) => row.date), ...forecast.map((_, idx) => `+${idx + 1}`)];
     const datasetActual = closing.slice(-24);
-    if (!datasetActual.length) {
-      throw new Error('Not enough historical price data to compute a forecast.');
-    }
-    if (!forecast.length) {
-      throw new Error('Forecast window produced no projections.');
-    }
     const ctx = document.getElementById('revenue-forecast-chart');
     if (charts.revenueForecast) charts.revenueForecast.destroy();
     charts.revenueForecast = new Chart(ctx, {
@@ -461,10 +372,10 @@ function colorScale(value) {
 
 async function renderHousingMap() {
   try {
-    const housingData = await fetchJson(profileConfig.feeds.unsoldHousing);
-    if (!housingData?.states?.length) {
-      throw new Error('Housing dataset missing state inventory data.');
-    }
+    const housingData = await fetchJson(
+      profileConfig.feeds.unsoldHousingLive,
+      profileConfig.feeds.unsoldHousingFallback
+    );
     const stateData = Object.fromEntries(
       housingData.states.map((entry) => [entry.code, entry.inventoryIndex])
     );
@@ -507,10 +418,10 @@ async function renderHousingMap() {
 
 async function renderMacroForecast() {
   try {
-    const housingData = await fetchJson(profileConfig.feeds.unsoldHousing);
-    if (!housingData?.states?.length) {
-      throw new Error('Housing dataset missing state inventory data.');
-    }
+    const housingData = await fetchJson(
+      profileConfig.feeds.unsoldHousingLive,
+      profileConfig.feeds.unsoldHousingFallback
+    );
     const unsoldAverage =
       housingData.states.reduce((acc, entry) => acc + entry.inventoryIndex, 0) /
       housingData.states.length;
@@ -536,16 +447,28 @@ async function renderMacroForecast() {
       }));
 
     const combined = unemploymentAverage.slice(-8).map((entry, idx, arr) => ({
+    const recent = unemployment.slice(-24);
+    const grouped = recent.reduce((acc, row) => {
+      const key = row.date;
+      acc[key] = acc[key] || [];
+      acc[key].push(row.unemployed);
+      return acc;
+    }, {});
+    const unemploymentAverage = Object.entries(grouped).map(([date, values]) => ({
+      date,
+      value:
+        values.map((val) => Number(val)).reduce((sum, val) => sum + val, 0) / values.length,
+    }));
+
+    const combined = unemploymentAverage.slice(-8).map((entry, idx) => ({
       date: entry.date,
       housingIndex: unsoldAverage,
       unemployment: entry.value,
       composite: unsoldAverage * 20 + entry.value / 200,
-      quarter: idx === arr.length - 1 ? 'Forecast' : 'Observed',
+      quarter: idx === unemploymentAverage.length - 1 ? 'Forecast' : 'Observed',
     }));
 
-    const latestComposite = combined.at(-1)?.composite ?? unsoldAverage * 20;
-    const priorComposite = combined.length > 1 ? combined.at(-2).composite : latestComposite;
-    const forecastNext = latestComposite * 0.98;
+    const forecastNext = combined.at(-1).composite * 0.98;
     const ctx = document.getElementById('macro-forecast-chart');
     if (charts.macroForecast) charts.macroForecast.destroy();
     charts.macroForecast = new Chart(ctx, {
@@ -568,7 +491,9 @@ async function renderMacroForecast() {
 
     document.getElementById('macro-forecast-insight').textContent = `Projected GDP growth proxy for next quarter: ${forecastNext
       .toFixed(1)
-      .toString()} vs baseline ${priorComposite.toFixed(1)}. Inventory index baseline ${unsoldAverage.toFixed(2)}.`;
+      .toString()} vs baseline ${combined.at(-2).composite.toFixed(1)}. Inventory index baseline ${unsoldAverage.toFixed(
+      2
+    )}.`;
   } catch (error) {
     document.getElementById('macro-forecast-insight').textContent = `Macro forecast unavailable: ${error.message}`;
     console.error(error);
@@ -583,9 +508,6 @@ async function renderLiveDashboards() {
     ]);
 
     const covidRecent = covidRows.slice(-60);
-    if (!covidRecent.length) {
-      throw new Error('No public health trend data available.');
-    }
     const covidLabels = covidRecent.map((row) => row.date);
     const covidCases = covidRecent.map((row) => Number(row.cases));
     const ctxTrend = document.getElementById('us-trend-chart');
@@ -611,9 +533,6 @@ async function renderLiveDashboards() {
     });
 
     const volatilityRecent = volatilityRows.slice(-180);
-    if (!volatilityRecent.length) {
-      throw new Error('No market volatility data available.');
-    }
     const volatilityLabels = volatilityRecent.map((row) => row.Date);
     const closePrices = volatilityRecent.map((row) => Number(row['AAPL.Close']));
     const volatilitySeries = closePrices.map((price, idx, arr) => {
@@ -701,8 +620,7 @@ function renderResume() {
 }
 
 function renderEtLBlueprint() {
-  const { feeds } = profileConfig;
-  const blueprint = `// Dagster orchestrated pipeline\n@asset\ndef investor_flows_raw():\n    return load_csv('${feeds.investorFlows.primary}')\n\n@asset\ndef unsold_inventory():\n    source = fetch_json('${feeds.unsoldHousing.primary}')\n    if source.is_empty():\n        source = fetch_json('${feeds.unsoldHousing.fallback}')\n    return transform_inventory(source)\n\n@asset\ndef macro_quarter_forecast(investor_flows_raw, unsold_inventory):\n    features = feature_store.combine(investor_flows_raw, unsold_inventory)\n    return forecast_model.predict(features)\n\n@job\ndef intelligence_mesh():\n    macro_quarter_forecast()`;
+  const blueprint = `// Dagster orchestrated pipeline\n@asset\ndef investor_flows_raw():\n    return load_csv('${profileConfig.feeds.investorFlows}')\n\n@asset\ndef unsold_inventory():\n    source = fetch_json('${profileConfig.feeds.unsoldHousingLive}')\n    if source.is_empty():\n        source = fetch_json('${profileConfig.feeds.unsoldHousingFallback}')\n    return transform_inventory(source)\n\n@asset\ndef macro_quarter_forecast(investor_flows_raw, unsold_inventory):\n    features = feature_store.combine(investor_flows_raw, unsold_inventory)\n    return forecast_model.predict(features)\n\n@job\ndef intelligence_mesh():\n    macro_quarter_forecast()`;
   document.getElementById('etl-blueprint').textContent = blueprint;
 }
 
@@ -721,7 +639,10 @@ function attachPipelineRunner() {
     try {
       const investorRows = await fetchCsv(profileConfig.feeds.investorFlows);
       addEvent(`Investor flows fetched (${investorRows.length} rows)`);
-      const housingData = await fetchJson(profileConfig.feeds.unsoldHousing);
+      const housingData = await fetchJson(
+        profileConfig.feeds.unsoldHousingLive,
+        profileConfig.feeds.unsoldHousingFallback
+      );
       addEvent(`Unsold inventory synced (${housingData.states.length} states)`);
       const unemployment = await fetchJson(profileConfig.feeds.unemployment);
       addEvent(`Unemployment dataset ingested (${unemployment.length} rows)`);

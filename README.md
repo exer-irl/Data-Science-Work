@@ -65,30 +65,3 @@ python -m http.server 8000
 ```
 
 Then open `http://localhost:8000` in a browser.
-
-### Live data sources and fallbacks
-
-The portfolio pulls from openly available datasets so the dashboards render on
-GitHub Pages without server-side code. Each feed has an on-platform fallback in
-`docs/data/` to guarantee charts render even if the upstream API is
-temporarily unavailable.
-
-| Section | Primary feed | Fallback |
-| --- | --- | --- |
-| Business Ops fund flows | [datasets/investor-flow-of-funds-us](https://github.com/datasets/investor-flow-of-funds-us) | `docs/data/investor_flows_sample.csv` |
-| Revenue scenarios | [vega-datasets/stocks.csv](https://github.com/vega/vega-datasets/blob/master/data/stocks.csv) | `docs/data/stocks_sample.csv` |
-| Macro outlook (unemployment) | [vega-datasets/unemployment-across-industries](https://github.com/vega/vega-datasets/blob/master/data/unemployment-across-industries.json) | `docs/data/unemployment_sample.json` |
-| Macro outlook (unsold housing) | Raw GitHub link to `docs/data/unsold_housing_index.json` | `docs/data/unsold_housing_index.json` |
-| Live dashboards (health) | [nytimes/covid-19-data](https://github.com/nytimes/covid-19-data) | `docs/data/covid_us_sample.csv` |
-| Live dashboards (volatility) | [plotly/datasets finance-charts-apple](https://github.com/plotly/datasets) | `docs/data/volatility_sample.csv` |
-| Open source analytics | GitHub REST API | `docs/data/github_repos_sample.json` |
-
-If you change the default branch name, update the `profileConfig.feeds.unsoldHousing.primary`
-URL in `docs/app.js` so it points at the correct branch in the raw GitHub
-content path.
-
-### Resume download
-
-Replace the placeholder `docs/Caleb_Drew_Resume.pdf` with your real resume to
-enable the hero “Download Resume” button. The button automatically downloads
-local files and opens external links in a new tab.
