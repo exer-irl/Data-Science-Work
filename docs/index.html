@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Data Science Portfolio | Live Intelligence Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-grid">
+      <aside class="nav-rail" aria-label="Section navigation">
+        <div class="brand">Live Intelligence Hub</div>
+        <nav>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#open-source">Open Source</a>
+          <a href="#business-ops">Business Ops</a>
+          <a href="#revenue-forecast">Revenue Forecast</a>
+          <a href="#macro-forecast">Economic Outlook</a>
+          <a href="#live-dashboards">Live Dashboards</a>
+          <a href="#data-engineering">Data Engineering</a>
+          <a href="#resume">Dynamic Resume</a>
+        </nav>
+      </aside>
+
+      <main>
+        <section id="about" class="panel hero">
+          <div class="hero-copy">
+            <h1>
+              <span id="hero-greeting">Hello, I'm</span>
+              <span class="gradient-text" id="hero-name">Caleb Drew</span>
+            </h1>
+            <p id="hero-tagline">
+              Building data products that combine real-time intelligence, predictive analytics,
+              and beautiful storytelling.
+            </p>
+            <div class="hero-actions">
+              <button id="download-resume" class="btn primary">Download Resume</button>
+              <button id="contact-me" class="btn ghost">Let's Collaborate</button>
+            </div>
+            <div class="stat-bar" role="presentation">
+              <div class="stat">
+                <span class="label">Years of Experience</span>
+                <span class="value" id="statYears">0</span>
+              </div>
+              <div class="stat">
+                <span class="label">Projects Delivered</span>
+                <span class="value" id="statProjects">0</span>
+              </div>
+              <div class="stat">
+                <span class="label">Industries Impacted</span>
+                <span class="value" id="statIndustries">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="hero-visual">
+            <canvas id="signatureChart" aria-hidden="true"></canvas>
+          </div>
+        </section>
+
+        <section id="skills" class="panel">
+          <header class="panel-header">
+            <h2>Full-Stack Data Skillset</h2>
+            <p>
+              A cross-functional blend of analytics, engineering, visualization, and leadership
+              powering business growth.
+            </p>
+          </header>
+          <div class="skill-matrix" id="skillMatrix"></div>
+        </section>
+
+        <section id="open-source" class="panel">
+          <header class="panel-header">
+            <h2>Open Source Intelligence</h2>
+            <p>
+              Automated insight into GitHub footprint, contribution velocity, and collaborative
+              impact.
+            </p>
+          </header>
+          <div class="panel-body two-col">
+            <div class="card">
+              <h3>Contribution Velocity</h3>
+              <canvas id="langChart"></canvas>
+            </div>
+            <div class="card">
+              <h3>Starred Impact</h3>
+              <ul id="repoList" class="repo-list"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="business-ops" class="panel">
+          <header class="panel-header">
+            <h2>Business Operations Pulse</h2>
+            <p>
+              Live mutual fund flow data fused into actionable dashboards with automated anomaly
+              detection.
+            </p>
+          </header>
+          <div class="panel-body">
+            <div class="card">
+              <div class="card-header">
+                <h3>Capital Flow Trends</h3>
+                <span class="badge live">Live</span>
+              </div>
+              <canvas id="flowChart"></canvas>
+              <div class="insight" id="flowInsight"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="revenue-forecast" class="panel">
+          <header class="panel-header">
+            <h2>Public Company Revenue Scenario Lab</h2>
+            <p>
+              Blend of historical fundamentals and machine-learned forecast scenarios to anticipate
+              quarterly performance.
+            </p>
+          </header>
+          <div class="panel-body two-col">
+            <div class="card">
+              <h3 id="revenue-company-title">Company Forecast</h3>
+              <canvas id="revChart"></canvas>
+            </div>
+            <div class="card">
+              <h3>Scenario Controls</h3>
+              <div class="control-grid">
+                <label>
+                  Company Symbol
+                  <input id="sym" type="text" value="MSFT" maxlength="5" />
+                </label>
+                <label>
+                  Forecast Horizon (months)
+                  <input id="horizon" type="number" min="3" max="18" value="9" />
+                </label>
+                <label>
+                  Growth Optimism
+                  <input id="optimism" type="range" min="0" max="1" step="0.1" value="0.5" />
+                </label>
+              </div>
+              <button id="runRev" class="btn primary full">Recompute Forecast</button>
+              <div class="insight" id="revInsight"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="macro-forecast" class="panel">
+          <header class="panel-header">
+            <h2>U.S. Macro Foresight</h2>
+            <p>
+              Unsold housing inventory fused with macro indicators to project next quarter
+              performance.
+            </p>
+          </header>
+          <div class="panel-body two-col">
+            <div class="card">
+              <div class="card-header">
+                <h3>Unsold Housing Hotspots</h3>
+                <span class="badge live">Live</span>
+              </div>
+              <div id="housing-map"></div>
+            </div>
+            <div class="card">
+              <h3>Macro Indicator Outlook</h3>
+              <canvas id="macroChart"></canvas>
+              <div class="insight" id="macroInsight"></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="live-dashboards" class="panel">
+          <header class="panel-header">
+            <h2>Streaming Intelligence Deck</h2>
+            <p>
+              Continuously updating public health &amp; macroeconomic signals for proactive decision
+              making.
+            </p>
+          </header>
+          <div class="panel-body three-col">
+            <div class="card">
+              <h3>U.S. Trend Tracker</h3>
+              <canvas id="usTrend"></canvas>
+            </div>
+            <div class="card">
+              <h3>Market Volatility Watch</h3>
+              <canvas id="volChart"></canvas>
+            </div>
+            <div class="card">
+              <h3>Signals</h3>
+              <ul id="signalList" class="signal-list"></ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="data-engineering" class="panel">
+          <header class="panel-header">
+            <h2>Data Engineering Fabric</h2>
+            <p>
+              Lightweight ETL orchestrations powering each dashboard with resilient data contracts.
+            </p>
+          </header>
+          <div class="panel-body two-col">
+            <div class="card">
+              <h3>Pipeline Blueprint</h3>
+              <pre id="etl" class="code-block"></pre>
+            </div>
+            <div class="card">
+              <h3>Latest Pipeline Run</h3>
+              <div class="pipeline-status" id="pipe"></div>
+              <button id="runPipe" class="btn ghost full">Trigger Demo Pipeline</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="resume" class="panel">
+          <header class="panel-header">
+            <h2>Dynamic Resume Narrative</h2>
+            <p>
+              Interactive storytelling of career milestones, leadership highlights, and quantified
+              business impact.
+            </p>
+          </header>
+          <div class="panel-body">
+            <div class="timeline-controls">
+              <button class="btn ghost" data-filter="all">All</button>
+              <button class="btn ghost" data-filter="leadership">Leadership</button>
+              <button class="btn ghost" data-filter="data-science">Data Science</button>
+              <button class="btn ghost" data-filter="engineering">Engineering</button>
+            </div>
+            <div id="timeline" class="timeline"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin></script>
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
