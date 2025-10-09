@@ -68,23 +68,34 @@ a:focus {
 
 .tool-logos {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
   gap: 12px;
   margin: 22px 0 28px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tool-logos::-webkit-scrollbar {
+  display: none;
 }
 
 .tool-logo {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 72px;
-  height: 72px;
-  padding: 12px;
+  width: 68px;
+  height: 68px;
+  padding: 10px;
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.08);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 12px 28px rgba(8, 10, 20, 0.28);
   backdrop-filter: blur(4px);
   border: 1px solid rgba(255, 255, 255, 0.12);
+  flex: 0 0 auto;
 }
 
 .tool-logo img {
@@ -111,6 +122,12 @@ a:focus {
 
 .tool-logo.python {
   background: linear-gradient(145deg, rgba(54, 114, 165, 0.2), rgba(255, 211, 67, 0.12));
+}
+
+@media (min-width: 700px) {
+  .tool-logos {
+    justify-content: flex-start;
+  }
 }
 
 .intro-actions {
