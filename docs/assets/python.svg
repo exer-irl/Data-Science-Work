@@ -1,0 +1,17 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Python logo</title>
+  <defs>
+    <linearGradient id="pythonTop" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#366994" />
+      <stop offset="100%" stop-color="#0B4A7A" />
+    </linearGradient>
+    <linearGradient id="pythonBottom" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFD43B" />
+      <stop offset="100%" stop-color="#FFA000" />
+    </linearGradient>
+  </defs>
+  <path d="M23.5 6H26c6 0 9 3 9 8v6H21c-3 0-5 2-5 5v5H12c-5 0-8-3-8-8V18C4 11 11 6 18.5 6H23.5Z" fill="url(#pythonTop)" />
+  <circle cx="28.5" cy="11.5" r="2" fill="#F4F7FB" />
+  <path d="M24.5 42H22c-6 0-9-3-9-8v-6h14c3 0 5-2 5-5v-5h4c5 0 8 3 8 8v6c0 7-7 12-14.5 12H24.5Z" fill="url(#pythonBottom)" />
+  <circle cx="19.5" cy="36.5" r="2" fill="#11324D" opacity="0.85" />
+</svg>

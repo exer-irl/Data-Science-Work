@@ -1,0 +1,11 @@
+<svg width="48" height="48" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title">
+  <title id="title">Microsoft Azure logo</title>
+  <defs>
+    <linearGradient id="azureGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2D9CDB" />
+      <stop offset="100%" stop-color="#0072C6" />
+    </linearGradient>
+  </defs>
+  <path d="M6 40L20.5 6H28L14.5 40H6Z" fill="url(#azureGradient)" />
+  <path d="M21 40L30.5 15.5L42 40H21Z" fill="#59B0F6" />
+</svg>
