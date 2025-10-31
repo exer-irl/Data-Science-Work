@@ -13,6 +13,19 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
+    <!-- Interactive Navigation -->
+    <nav class="nav-menu" id="navMenu">
+      <div class="nav-container">
+        <span class="nav-brand">CD</span>
+        <div class="nav-links">
+          <a href="#about" class="nav-link">About</a>
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#case-studies" class="nav-link">Case Studies</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+      </div>
+    </nav>
+
     <main class="layout">
       <header class="intro">
         <p class="eyebrow">Operations Analytics Consultant</p>
@@ -56,7 +69,118 @@
         </ul>
       </section>
 
-      <section id="case-study" class="panel">
+      <!-- Case Studies Section Header -->
+      <section id="case-studies" class="section-header">
+        <h2 class="section-title">Case Studies</h2>
+        <p class="section-subtitle">Interactive examples of recent projects demonstrating IoT integration, ETL pipelines, and analytics automation</p>
+      </section>
+
+      <!-- Case Study 1: IoT Press Monitoring -->
+      <section id="case-iot" class="panel case-study-card">
+        <div class="case-badge">IoT & Industrial Engineering</div>
+        <h2>Case Snapshot: Real-Time Press Monitoring with IoT</h2>
+        <p>
+          A metal stamping plant was struggling with undetected press downtime and temperature anomalies that led to quality issues and unplanned maintenance. I deployed custom Raspberry Pi units on 12 hydraulic presses to continuously track temperature, cycle counts, bump events, and downtime. The data flowed into a centralized dashboard that gave supervisors real-time visibility across the entire floor.
+        </p>
+        <div class="case-grid">
+          <div class="case-copy">
+            <p class="result">
+              Real-time monitoring reduced unplanned downtime by 34% and enabled predictive maintenance alerts that prevented three major equipment failures in the first six months.
+            </p>
+            <div class="metric-grid">
+              <div class="metric interactive-metric" data-metric="presses">
+                <span class="metric-label">Presses monitored</span>
+                <span class="metric-value">12 units</span>
+              </div>
+              <div class="metric interactive-metric" data-metric="downtime">
+                <span class="metric-label">Downtime reduction</span>
+                <span class="metric-value">34%</span>
+              </div>
+              <div class="metric interactive-metric" data-metric="datapoints">
+                <span class="metric-label">Data points/day</span>
+                <span class="metric-value" id="datapointsValue">--</span>
+              </div>
+            </div>
+          </div>
+          <div class="chart-card interactive-chart">
+            <div class="chart-controls">
+              <button class="chart-btn active" data-chart="temperature">Temperature</button>
+              <button class="chart-btn" data-chart="uptime">Uptime</button>
+              <button class="chart-btn" data-chart="cycles">Cycles</button>
+            </div>
+            <canvas id="iotChart" aria-label="IoT press monitoring metrics" role="img"></canvas>
+          </div>
+        </div>
+        <p class="case-footnote">
+          Click the buttons above to explore different metrics. The Raspberry Pi units run Python scripts that post sensor readings every 3 seconds to an Azure IoT Hub, which feeds a Power BI dashboard for live monitoring.
+        </p>
+      </section>
+
+      <!-- Case Study 2: Supply Chain ETL -->
+      <section id="case-supply-chain" class="panel case-study-card">
+        <div class="case-badge">ETL & Data Integration</div>
+        <h2>Case Snapshot: Cross-Vendor Supply Chain Integration</h2>
+        <p>
+          A procurement team managing 15+ suppliers was drowning in incompatible data formats—CSV files from one vendor, XML from another, Excel spreadsheets from a third. Lead times, pricing, and inventory levels were scattered across email attachments and FTP drops. I built an automated ETL pipeline that normalized all vendor feeds into a unified data warehouse, giving buyers a single source of truth.
+        </p>
+        <div class="case-grid">
+          <div class="case-copy">
+            <p class="result">
+              The unified data platform eliminated 40+ hours of manual data wrangling per week, improved forecast accuracy by 28%, and reduced stockouts by identifying supplier delays before they impacted production.
+            </p>
+            <div class="metric-grid">
+              <div class="metric interactive-metric" data-metric="vendors">
+                <span class="metric-label">Vendors integrated</span>
+                <span class="metric-value">15</span>
+              </div>
+              <div class="metric interactive-metric" data-metric="formats">
+                <span class="metric-label">Data formats unified</span>
+                <span class="metric-value">7</span>
+              </div>
+              <div class="metric interactive-metric" data-metric="processing">
+                <span class="metric-label">Processing time</span>
+                <span class="metric-value">&lt;5 min</span>
+              </div>
+            </div>
+          </div>
+          <div class="etl-visualization">
+            <div class="etl-stage">
+              <div class="stage-title">Extract</div>
+              <div class="etl-sources">
+                <div class="etl-source" data-format="csv">CSV</div>
+                <div class="etl-source" data-format="xml">XML</div>
+                <div class="etl-source" data-format="json">JSON</div>
+                <div class="etl-source" data-format="excel">Excel</div>
+              </div>
+            </div>
+            <div class="etl-arrow">→</div>
+            <div class="etl-stage">
+              <div class="stage-title">Transform</div>
+              <div class="etl-process">
+                <div class="process-step active" data-step="1">Validate Schema</div>
+                <div class="process-step" data-step="2">Normalize Fields</div>
+                <div class="process-step" data-step="3">Enrich Data</div>
+                <div class="process-step" data-step="4">Quality Check</div>
+              </div>
+            </div>
+            <div class="etl-arrow">→</div>
+            <div class="etl-stage">
+              <div class="stage-title">Load</div>
+              <div class="etl-destination">
+                <div class="destination-icon">🗄️</div>
+                <div class="destination-label">SQL Data Warehouse</div>
+                <div class="destination-status" id="etlStatus">Ready</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="case-footnote">
+          Hover over the data sources to see the flow, or watch the transformation steps animate. Built with Azure Data Factory and Python, the pipeline runs every 4 hours and includes automatic error alerts.
+        </p>
+      </section>
+
+      <section id="case-study" class="panel case-study-card">
+        <div class="case-badge">Forecasting & Automation</div>
         <h2>Case Snapshot: Smarter Min/Max Guardrails</h2>
         <p>
           A multi-plant manufacturer asked me to tighten inventory min/max settings that were causing costly last-minute rush orders. Using four years of production data, I cleaned the history, applied a Holt-Winters seasonal forecast, and generated interactive visuals so planners could see exactly how the new targets tracked against reality.
@@ -90,7 +214,8 @@
         </p>
       </section>
 
-      <section id="case-etl" class="panel">
+      <section id="case-etl" class="panel case-study-card">
+        <div class="case-badge">Executive Reporting</div>
         <h2>Case Snapshot: Executive Reporting, Unified</h2>
         <p>
           An executive team I supported lacked a consolidated view of revenue, orders, and production levels—each plant emailed messy spreadsheets on their own cadence. By partnering with plant leaders and their ERP owners, I delivered an automated ETL backbone that keeps leadership aligned on the latest performance.
