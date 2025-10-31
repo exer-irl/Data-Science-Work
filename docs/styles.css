@@ -268,12 +268,15 @@ a:focus {
   border-radius: var(--radius);
   border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 18px;
-  min-height: 280px;
+  min-height: 320px;
+  display: flex;
+  flex-direction: column;
 }
 
 .chart-card canvas {
   width: 100% !important;
-  height: 240px !important;
+  height: 260px !important;
+  flex: 1;
 }
 
 .chart-fallback {
@@ -525,24 +528,40 @@ a:focus {
 /* Section Header */
 .section-header {
   text-align: center;
-  padding: 48px 24px 24px;
-  margin-top: 32px;
+  padding: 56px 24px 32px;
+  margin-top: 40px;
+  position: relative;
+}
+
+.section-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accent), #4bc4b8);
+  border-radius: 999px;
 }
 
 .section-title {
-  font-size: clamp(2rem, 4vw, 2.8rem);
-  margin: 0 0 12px;
+  font-size: clamp(2.2rem, 4.5vw, 3rem);
+  margin: 0 0 16px;
   background: linear-gradient(135deg, var(--accent), #4bc4b8);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 .section-subtitle {
-  color: var(--muted);
-  max-width: 700px;
+  color: rgba(247, 248, 255, 0.75);
+  max-width: 720px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-size: 1.05rem;
 }
 
 /* Case Study Cards */
@@ -559,49 +578,60 @@ a:focus {
 
 .case-badge {
   display: inline-block;
-  background: linear-gradient(135deg, rgba(122, 139, 255, 0.2), rgba(75, 196, 184, 0.15));
-  border: 1px solid rgba(122, 139, 255, 0.4);
+  background: linear-gradient(135deg, rgba(122, 139, 255, 0.3), rgba(75, 196, 184, 0.25));
+  border: 2px solid rgba(122, 139, 255, 0.6);
   border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 0.75rem;
-  font-weight: 600;
+  padding: 8px 20px;
+  font-size: 0.8rem;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--accent);
-  margin-bottom: 16px;
+  letter-spacing: 0.12em;
+  color: rgba(247, 248, 255, 0.95);
+  margin-bottom: 18px;
+  box-shadow: 0 2px 12px rgba(122, 139, 255, 0.3);
 }
 
 /* Chart Controls */
 .chart-controls {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 10px;
+  margin-bottom: 16px;
   flex-wrap: wrap;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .chart-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 8px;
-  padding: 8px 16px;
-  color: var(--muted);
-  font-size: 0.85rem;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.12);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+  padding: 10px 20px;
+  color: rgba(247, 248, 255, 0.85);
+  font-size: 0.9rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: all 0.3s ease;
   font-family: inherit;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .chart-btn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.4);
   color: var(--text);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(122, 139, 255, 0.3);
 }
 
 .chart-btn.active {
-  background: var(--accent);
+  background: linear-gradient(135deg, var(--accent), #4bc4b8);
   border-color: var(--accent);
-  color: #04060c;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(122, 139, 255, 0.5);
+  transform: translateY(-1px);
 }
 
 .interactive-chart {
@@ -654,21 +684,24 @@ a:focus {
 }
 
 .etl-source {
-  background: linear-gradient(135deg, rgba(122, 139, 255, 0.12), rgba(75, 196, 184, 0.08));
-  border: 1px solid rgba(122, 139, 255, 0.3);
-  border-radius: 8px;
-  padding: 10px 14px;
+  background: linear-gradient(135deg, rgba(122, 139, 255, 0.25), rgba(75, 196, 184, 0.15));
+  border: 2px solid rgba(122, 139, 255, 0.5);
+  border-radius: 10px;
+  padding: 12px 16px;
   text-align: center;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 0.9rem;
+  font-weight: 700;
   transition: all 0.3s ease;
   cursor: pointer;
+  color: rgba(247, 248, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(122, 139, 255, 0.2);
 }
 
 .etl-source:hover {
   transform: scale(1.1);
-  box-shadow: 0 8px 20px rgba(122, 139, 255, 0.25);
+  box-shadow: 0 8px 24px rgba(122, 139, 255, 0.4);
   border-color: var(--accent);
+  background: linear-gradient(135deg, rgba(122, 139, 255, 0.35), rgba(75, 196, 184, 0.25));
 }
 
 .etl-arrow {
@@ -686,55 +719,66 @@ a:focus {
 }
 
 .process-step {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 0.8rem;
+  padding: 12px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
   text-align: center;
   transition: all 0.5s ease;
-  opacity: 0.5;
+  opacity: 0.6;
+  color: rgba(247, 248, 255, 0.7);
 }
 
 .process-step.active {
-  background: linear-gradient(135deg, rgba(122, 139, 255, 0.2), rgba(75, 196, 184, 0.15));
+  background: linear-gradient(135deg, rgba(122, 139, 255, 0.3), rgba(75, 196, 184, 0.25));
   border-color: var(--accent);
+  border-width: 2px;
   opacity: 1;
-  transform: scale(1.05);
-  box-shadow: 0 4px 16px rgba(122, 139, 255, 0.3);
+  transform: scale(1.08);
+  box-shadow: 0 6px 20px rgba(122, 139, 255, 0.4);
+  color: rgba(247, 248, 255, 1);
+  font-weight: 700;
 }
 
 .etl-destination {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 14px;
+  padding: 24px;
   text-align: center;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
-  min-height: 120px;
+  min-height: 140px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
 }
 
 .destination-icon {
-  font-size: 2.5rem;
+  font-size: 3rem;
+  filter: drop-shadow(0 2px 8px rgba(122, 139, 255, 0.3));
 }
 
 .destination-label {
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   color: var(--text);
+  letter-spacing: 0.02em;
 }
 
 .destination-status {
-  font-size: 0.75rem;
-  color: #4bc4b8;
-  background: rgba(75, 196, 184, 0.15);
-  padding: 4px 12px;
+  font-size: 0.8rem;
+  color: #ffffff;
+  background: linear-gradient(135deg, #4bc4b8, rgba(75, 196, 184, 0.8));
+  padding: 6px 16px;
   border-radius: 999px;
-  font-weight: 600;
+  font-weight: 700;
+  box-shadow: 0 2px 10px rgba(75, 196, 184, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 @media (max-width: 800px) {
